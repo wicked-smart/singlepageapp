@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Index Page</title>
+
+      <script>
+
+        function showSection(section) {
+            fetch(`/sections/${section}`)
+            .then(response => response.text())
+            .then(text => {
+              console.log(text),
+              //console.log(response.text()),
+              document.querySelector('#content').innerHTML = text;
+            });
+          };
+
+
+
+        document.addEventListener('DOMContentLoaded', function(){
+            document.querySelectorAll('button').forEach(button => {
+                button.onclick = function(){
+                  const section = this.dataset.section;
+                    history.pushState({section:section}, "", `sections/${section}`);
+                    showSection(this.dataset.section);
+                }
+            })
+        });
+
+
+        window.onpopstate = function(event){
+            console.log(event.state.section);
+            showSection(event.state.section);
+        }
+
+
+
+      </script>
+  </head>
+
+  <body>
+    <h1>All About Lorem Ipsum!</h1>
+    <button data-section="1">What is Lorem Ipsum!</button>
+    <button data-section="2">Where Does it Comes From!</button>
+    <button data-section="3">Where can i get some!</button>
+    <hr>
+    <div id="content">
+    </div>
+
+  </body>
+</html>
